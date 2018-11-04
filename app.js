@@ -13,7 +13,8 @@ app.use(bodyParser.urlencoded({extended: true}));
 // Schema setup
 var campgroundSchema = new mongoose.Schema({
   name: String,
-  image: String
+  image: String, 
+  description: String
 });
 
 // use campground schema
@@ -23,7 +24,8 @@ var Campground = mongoose.model("Campground", campgroundSchema);
 // Campground.create(
 //   {
 //     name: "Mountain Goat's Rest",
-//     image: "https://cdn.pixabay.com/photo/2015/07/10/17/24/night-839807_1280.jpg"
+//     image: "https://cdn.pixabay.com/photo/2015/07/10/17/24/night-839807_1280.jpg",
+//     description: "This is a huge granite hill. No bathrooms, no water. Beautiful granite!"
 //   }, function(err, campground){
 //     if (err) {
 //       console.log(err);
@@ -63,7 +65,7 @@ app.get("/campgrounds", function(req, res){
     if (err) {
       console.log(err);
     } else {
-      res.render("campgrounds", {campgrounds: allCampgrounds});
+      res.render("index", {campgrounds: allCampgrounds});
     }
   });
 });
@@ -73,8 +75,9 @@ app.post("/campgrounds", function(req, res){
   // get data from new campground form and add to campgrounds db
   var name = req.body.name;
   var image = req.body.image;
+  var desc = req.body.description;
   // make name and image variables as object
-  var newCampground = {name: name, image: image};
+  var newCampground = {name: name, image: image, description: desc};
   // and push newCampground to campgrounds array
   // campgrounds.push(newCampground);
 
@@ -93,6 +96,23 @@ app.post("/campgrounds", function(req, res){
 app.get("/campgrounds/new", function(req, res){
   res.render("new");
 });
+
+// shows more info about one campground
+app.get("/campgrounds/:id", function(req, res){
+  // find the campground with the provided ID
+  Campground.findById(req.params.id, function(err, foundCampground){
+    if (err) {
+      console.log(err);
+    } else {
+      // render show template with that campground
+      // res.send("THIS WILL BE THE SHOW PAGE SOON!");
+      res.render("show", {campground: foundCampground});
+    }
+  });
+  
+  
+});
+
 
 
 // ============================================================================
