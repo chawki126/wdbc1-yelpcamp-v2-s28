@@ -4,7 +4,11 @@ var express     = require("express"),
     mongoose    = require("mongoose");
 
 // use yelp_camp db if exists, if not, it will create yelp_camp db.
-mongoose.connect("mongodb://localhost/yelp_camp");
+// mongoose.connect("mongodb://localhost/yelp_camp");
+
+// use mlab wdbc1_yelp_camp db
+mongoose.connect("mongodb://admin:admin123@ds149144.mlab.com:49144/wdbc1_yelp_camp")
+
 // 
 app.set("view engine", "ejs");
 // set body parser
